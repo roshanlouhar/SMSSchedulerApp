@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.esms.mobitel.lk/" xmlns:ns1="http://cxf.apache.org/bindings/xformat" name="EnterpriseSMSImplService" targetNamespace="http://ws.esms.mobitel.lk/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://ws.esms.mobitel.lk/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="addNumberListToBlacklist" type="tns:addNumberListToBlacklist" />
+      <xs:element name="addNumberListToBlacklistResponse" type="tns:addNumberListToBlacklistResponse" />
+      <xs:element name="addNumberListToGroup" type="tns:addNumberListToGroup" />
+      <xs:element name="addNumberListToGroupResponse" type="tns:addNumberListToGroupResponse" />
+      <xs:element name="addNumberListToWhitelist" type="tns:addNumberListToWhitelist" />
+      <xs:element name="addNumberListToWhitelistResponse" type="tns:addNumberListToWhitelistResponse" />
+      <xs:element name="addNumberToBlacklist" type="tns:addNumberToBlacklist" />
+      <xs:element name="addNumberToBlacklistResponse" type="tns:addNumberToBlacklistResponse" />
+      <xs:element name="addNumberToGroup" type="tns:addNumberToGroup" />
+      <xs:element name="addNumberToGroupResponse" type="tns:addNumberToGroupResponse" />
+      <xs:element name="addNumberToWhitelist" type="tns:addNumberToWhitelist" />
+      <xs:element name="addNumberToWhitelistResponse" type="tns:addNumberToWhitelistResponse" />
+      <xs:element name="closeSession" type="tns:closeSession" />
+      <xs:element name="closeSessionResponse" type="tns:closeSessionResponse" />
+      <xs:element name="createGroup" type="tns:createGroup" />
+      <xs:element name="createGroupResponse" type="tns:createGroupResponse" />
+      <xs:element name="createSession" type="tns:createSession" />
+      <xs:element name="createSessionResponse" type="tns:createSessionResponse" />
+      <xs:element name="deleteGroup" type="tns:deleteGroup" />
+      <xs:element name="deleteGroupResponse" type="tns:deleteGroupResponse" />
+      <xs:element name="getMessagesFromLongNUmber" type="tns:getMessagesFromLongNUmber" />
+      <xs:element name="getMessagesFromLongNUmberResponse" type="tns:getMessagesFromLongNUmberResponse" />
+      <xs:element name="getMessagesFromShortcode" type="tns:getMessagesFromShortcode" />
+      <xs:element name="getMessagesFromShortcodeResponse" type="tns:getMessagesFromShortcodeResponse" />
+      <xs:element name="getDeliveryReports" type="tns:getDeliveryReports" />
+      <xs:element name="getDeliveryReportsResponse" type="tns:getDeliveryReportsResponse" />
+      <xs:element name="getNumbersInGroup" type="tns:getNumbersInGroup" />
+      <xs:element name="getNumbersInGroupResponse" type="tns:getNumbersInGroupResponse" />
+      <xs:element name="getSentMessageReports" type="tns:getSentMessageReports" />
+      <xs:element name="getSentMessageReportsResponse" type="tns:getSentMessageReportsResponse" />
+      <xs:element name="isSession" type="tns:isSession" />
+      <xs:element name="isSessionResponse" type="tns:isSessionResponse" />
+      <xs:element name="removeNumberFromBlacklist" type="tns:removeNumberFromBlacklist" />
+      <xs:element name="removeNumberFromBlacklistResponse" type="tns:removeNumberFromBlacklistResponse" />
+      <xs:element name="removeNumberFromGroup" type="tns:removeNumberFromGroup" />
+      <xs:element name="removeNumberFromGroupResponse" type="tns:removeNumberFromGroupResponse" />
+      <xs:element name="removeNumberFromWhitelist" type="tns:removeNumberFromWhitelist" />
+      <xs:element name="removeNumberFromWhitelistResponse" type="tns:removeNumberFromWhitelistResponse" />
+      <xs:element name="removeNumberListFromBlacklist" type="tns:removeNumberListFromBlacklist" />
+      <xs:element name="removeNumberListFromBlacklistResponse" type="tns:removeNumberListFromBlacklistResponse" />
+      <xs:element name="removeNumberListFromGroup" type="tns:removeNumberListFromGroup" />
+      <xs:element name="removeNumberListFromGroupResponse" type="tns:removeNumberListFromGroupResponse" />
+      <xs:element name="removeNumberListFromWhitelist" type="tns:removeNumberListFromWhitelist" />
+      <xs:element name="removeNumberListFromWhitelistResponse" type="tns:removeNumberListFromWhitelistResponse" />
+      <xs:element name="renewSession" type="tns:renewSession" />
+      <xs:element name="renewSessionResponse" type="tns:renewSessionResponse" />
+      <xs:element name="sendExpressGroupMessage" type="tns:sendExpressGroupMessage" />
+      <xs:element name="sendExpressGroupMessageResponse" type="tns:sendExpressGroupMessageResponse" />
+      <xs:element name="sendExpressMessage" type="tns:sendExpressMessage" />
+      <xs:element name="sendExpressMessageResponse" type="tns:sendExpressMessageResponse" />
+      <xs:element name="sendGroupMessage" type="tns:sendGroupMessage" />
+      <xs:element name="sendGroupMessageResponse" type="tns:sendGroupMessageResponse" />
+      <xs:element name="sendMessages" type="tns:sendMessages" />
+      <xs:element name="sendMessagesResponse" type="tns:sendMessagesResponse" />
+      <xs:element name="serviceTest" type="tns:serviceTest" />
+      <xs:element name="serviceTestResponse" type="tns:serviceTestResponse" />
+      <xs:complexType name="getMessagesFromShortcode">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:shortcode" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getDeliveryReports">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:alias" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="session">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="isActive" type="xs:boolean" />
+          <xs:element minOccurs="0" name="sessionId" type="xs:string" />
+          <xs:element minOccurs="0" name="user" type="xs:long" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="shortcode">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customer" type="xs:long" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="shortcode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getMessagesFromShortcodeResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getDeliveryReportsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="smsMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element name="messageId" type="xs:long" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="recipients" nillable="true" type="xs:string" />
+          <xs:element name="retries" type="xs:int" />
+          <xs:element minOccurs="0" name="sender" type="tns:alias" />
+          <xs:element name="sequenceNum" type="xs:int" />
+          <xs:element name="status" type="xs:int" />
+          <xs:element minOccurs="0" name="time" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="type" type="xs:string" />
+          <xs:element minOccurs="0" name="user" type="tns:user" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="alias">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alias" type="xs:string" />
+          <xs:element minOccurs="0" name="customer" type="xs:long" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="user">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customer" type="xs:long" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="password" type="xs:string" />
+          <xs:element minOccurs="0" name="username" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberFromGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+          <xs:element minOccurs="0" name="arg2" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="customerGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customer" type="xs:long" />
+          <xs:element minOccurs="0" name="groupId" type="xs:string" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberFromGroupResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="getSentMessageReports">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="session" type="tns:session" />
+          <xs:element minOccurs="0" name="startDate" type="xs:string" />
+          <xs:element minOccurs="0" name="endDate" type="xs:string" />
+          <xs:element minOccurs="0" name="alias" type="tns:alias" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSentMessageReportsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:sentMessages" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sentMessages">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alias" type="xs:string" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element minOccurs="0" name="recipient" type="xs:string" />
+          <xs:element minOccurs="0" name="status" type="xs:string" />
+          <xs:element minOccurs="0" name="timeSent" type="xs:string" />
+          <xs:element minOccurs="0" name="timeDelivered" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberListFromWhitelist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberListFromWhitelistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="sendExpressMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendExpressMessageResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberListToBlacklist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberListToBlacklistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="addNumberToBlacklist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberToBlacklistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="removeNumberListFromBlacklist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberListFromBlacklistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="createGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createGroupResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createSession">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:user" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createSessionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:session" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendExpressGroupMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+          <xs:element minOccurs="0" name="arg2" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendExpressGroupMessageResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberListToWhitelist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberListToWhitelistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="addNumberToWhitelist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberToWhitelistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="addNumberToGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+          <xs:element minOccurs="0" name="arg2" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberToGroupResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="getNumbersInGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNumbersInGroupResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteGroupResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="sendMessages">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendMessagesResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getMessagesFromLongNUmber">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:longNumber" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="longNumber">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customer" type="xs:long" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="longNumber" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getMessagesFromLongNUmberResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="serviceTest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:user" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="serviceTestResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberListFromGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg2" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberListFromGroupResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="renewSession">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="renewSessionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:session" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberFromWhitelist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberFromWhitelistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="removeNumberFromBlacklist">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeNumberFromBlacklistResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="closeSession">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="closeSessionResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="sendGroupMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+          <xs:element minOccurs="0" name="arg2" type="tns:smsMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendGroupMessageResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberListToGroup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+          <xs:element minOccurs="0" name="arg1" type="tns:customerGroup" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg2" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addNumberListToGroupResponse">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="isSession">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:session" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="isSessionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="addNumberListToWhitelistResponse">
+    <wsdl:part name="parameters" element="tns:addNumberListToWhitelistResponse" />
+  </wsdl:message>
+  <wsdl:message name="closeSession">
+    <wsdl:part name="parameters" element="tns:closeSession" />
+  </wsdl:message>
+  <wsdl:message name="getNumbersInGroup">
+    <wsdl:part name="parameters" element="tns:getNumbersInGroup" />
+  </wsdl:message>
+  <wsdl:message name="isSession">
+    <wsdl:part name="parameters" element="tns:isSession" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberListFromBlacklistResponse">
+    <wsdl:part name="parameters" element="tns:removeNumberListFromBlacklistResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberListToBlacklistResponse">
+    <wsdl:part name="parameters" element="tns:addNumberListToBlacklistResponse" />
+  </wsdl:message>
+  <wsdl:message name="sendMessagesResponse">
+    <wsdl:part name="parameters" element="tns:sendMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="createGroupResponse">
+    <wsdl:part name="parameters" element="tns:createGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberListFromBlacklist">
+    <wsdl:part name="parameters" element="tns:removeNumberListFromBlacklist" />
+  </wsdl:message>
+  <wsdl:message name="sendExpressMessage">
+    <wsdl:part name="parameters" element="tns:sendExpressMessage" />
+  </wsdl:message>
+  <wsdl:message name="sendGroupMessageResponse">
+    <wsdl:part name="parameters" element="tns:sendGroupMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberListFromWhitelistResponse">
+    <wsdl:part name="parameters" element="tns:removeNumberListFromWhitelistResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteGroupResponse">
+    <wsdl:part name="parameters" element="tns:deleteGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberListToBlacklist">
+    <wsdl:part name="parameters" element="tns:addNumberListToBlacklist" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberFromWhitelistResponse">
+    <wsdl:part name="parameters" element="tns:removeNumberFromWhitelistResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMessagesFromShortcode">
+    <wsdl:part name="parameters" element="tns:getMessagesFromShortcode" />
+  </wsdl:message>
+  <wsdl:message name="getDeliveryReports">
+    <wsdl:part name="parameters" element="tns:getDeliveryReports" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberFromWhitelist">
+    <wsdl:part name="parameters" element="tns:removeNumberFromWhitelist" />
+  </wsdl:message>
+  <wsdl:message name="deleteGroup">
+    <wsdl:part name="parameters" element="tns:deleteGroup" />
+  </wsdl:message>
+  <wsdl:message name="createSessionResponse">
+    <wsdl:part name="parameters" element="tns:createSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberToGroup">
+    <wsdl:part name="parameters" element="tns:addNumberToGroup" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberFromGroup">
+    <wsdl:part name="parameters" element="tns:removeNumberFromGroup" />
+  </wsdl:message>
+  <wsdl:message name="sendMessages">
+    <wsdl:part name="parameters" element="tns:sendMessages" />
+  </wsdl:message>
+  <wsdl:message name="getMessagesFromLongNUmber">
+    <wsdl:part name="parameters" element="tns:getMessagesFromLongNUmber" />
+  </wsdl:message>
+  <wsdl:message name="addNumberListToGroup">
+    <wsdl:part name="parameters" element="tns:addNumberListToGroup" />
+  </wsdl:message>
+  <wsdl:message name="sendGroupMessage">
+    <wsdl:part name="parameters" element="tns:sendGroupMessage" />
+  </wsdl:message>
+  <wsdl:message name="sendExpressGroupMessageResponse">
+    <wsdl:part name="parameters" element="tns:sendExpressGroupMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="closeSessionResponse">
+    <wsdl:part name="parameters" element="tns:closeSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMessagesFromLongNUmberResponse">
+    <wsdl:part name="parameters" element="tns:getMessagesFromLongNUmberResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberToBlacklist">
+    <wsdl:part name="parameters" element="tns:addNumberToBlacklist" />
+  </wsdl:message>
+  <wsdl:message name="getMessagesFromShortcodeResponse">
+    <wsdl:part name="parameters" element="tns:getMessagesFromShortcodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDeliveryReportsResponse">
+    <wsdl:part name="parameters" element="tns:getDeliveryReportsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSentMessageReports">
+    <wsdl:part name="parameters" element="tns:getSentMessageReports" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberListFromGroupResponse">
+    <wsdl:part name="parameters" element="tns:removeNumberListFromGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSentMessageReportsResponse">
+    <wsdl:part name="parameters" element="tns:getSentMessageReportsResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberListToGroupResponse">
+    <wsdl:part name="parameters" element="tns:addNumberListToGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberListFromWhitelist">
+    <wsdl:part name="parameters" element="tns:removeNumberListFromWhitelist" />
+  </wsdl:message>
+  <wsdl:message name="sendExpressMessageResponse">
+    <wsdl:part name="parameters" element="tns:sendExpressMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="serviceTest">
+    <wsdl:part name="parameters" element="tns:serviceTest" />
+  </wsdl:message>
+  <wsdl:message name="addNumberListToWhitelist">
+    <wsdl:part name="parameters" element="tns:addNumberListToWhitelist" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberFromBlacklistResponse">
+    <wsdl:part name="parameters" element="tns:removeNumberFromBlacklistResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberFromGroupResponse">
+    <wsdl:part name="parameters" element="tns:removeNumberFromGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="createSession">
+    <wsdl:part name="parameters" element="tns:createSession" />
+  </wsdl:message>
+  <wsdl:message name="getNumbersInGroupResponse">
+    <wsdl:part name="parameters" element="tns:getNumbersInGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="renewSessionResponse">
+    <wsdl:part name="parameters" element="tns:renewSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberToBlacklistResponse">
+    <wsdl:part name="parameters" element="tns:addNumberToBlacklistResponse" />
+  </wsdl:message>
+  <wsdl:message name="renewSession">
+    <wsdl:part name="parameters" element="tns:renewSession" />
+  </wsdl:message>
+  <wsdl:message name="addNumberToWhitelist">
+    <wsdl:part name="parameters" element="tns:addNumberToWhitelist" />
+  </wsdl:message>
+  <wsdl:message name="serviceTestResponse">
+    <wsdl:part name="parameters" element="tns:serviceTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="addNumberToWhitelistResponse">
+    <wsdl:part name="parameters" element="tns:addNumberToWhitelistResponse" />
+  </wsdl:message>
+  <wsdl:message name="createGroup">
+    <wsdl:part name="parameters" element="tns:createGroup" />
+  </wsdl:message>
+  <wsdl:message name="addNumberToGroupResponse">
+    <wsdl:part name="parameters" element="tns:addNumberToGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberListFromGroup">
+    <wsdl:part name="parameters" element="tns:removeNumberListFromGroup" />
+  </wsdl:message>
+  <wsdl:message name="removeNumberFromBlacklist">
+    <wsdl:part name="parameters" element="tns:removeNumberFromBlacklist" />
+  </wsdl:message>
+  <wsdl:message name="sendExpressGroupMessage">
+    <wsdl:part name="parameters" element="tns:sendExpressGroupMessage" />
+  </wsdl:message>
+  <wsdl:message name="isSessionResponse">
+    <wsdl:part name="parameters" element="tns:isSessionResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EnterpriseSMSWS">
+    <wsdl:operation name="getMessagesFromShortcode">
+      <wsdl:input name="getMessagesFromShortcode" message="tns:getMessagesFromShortcode" />
+      <wsdl:output name="getMessagesFromShortcodeResponse" message="tns:getMessagesFromShortcodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDeliveryReports">
+      <wsdl:input name="getDeliveryReports" message="tns:getDeliveryReports" />
+      <wsdl:output name="getDeliveryReportsResponse" message="tns:getDeliveryReportsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberFromGroup">
+      <wsdl:input name="removeNumberFromGroup" message="tns:removeNumberFromGroup" />
+      <wsdl:output name="removeNumberFromGroupResponse" message="tns:removeNumberFromGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSentMessageReports">
+      <wsdl:input name="getSentMessageReports" message="tns:getSentMessageReports" />
+      <wsdl:output name="getSentMessageReportsResponse" message="tns:getSentMessageReportsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberListFromWhitelist">
+      <wsdl:input name="removeNumberListFromWhitelist" message="tns:removeNumberListFromWhitelist" />
+      <wsdl:output name="removeNumberListFromWhitelistResponse" message="tns:removeNumberListFromWhitelistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendExpressMessage">
+      <wsdl:input name="sendExpressMessage" message="tns:sendExpressMessage" />
+      <wsdl:output name="sendExpressMessageResponse" message="tns:sendExpressMessageResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addNumberListToBlacklist">
+      <wsdl:input name="addNumberListToBlacklist" message="tns:addNumberListToBlacklist" />
+      <wsdl:output name="addNumberListToBlacklistResponse" message="tns:addNumberListToBlacklistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addNumberToBlacklist">
+      <wsdl:input name="addNumberToBlacklist" message="tns:addNumberToBlacklist" />
+      <wsdl:output name="addNumberToBlacklistResponse" message="tns:addNumberToBlacklistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberListFromBlacklist">
+      <wsdl:input name="removeNumberListFromBlacklist" message="tns:removeNumberListFromBlacklist" />
+      <wsdl:output name="removeNumberListFromBlacklistResponse" message="tns:removeNumberListFromBlacklistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createGroup">
+      <wsdl:input name="createGroup" message="tns:createGroup" />
+      <wsdl:output name="createGroupResponse" message="tns:createGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createSession">
+      <wsdl:input name="createSession" message="tns:createSession" />
+      <wsdl:output name="createSessionResponse" message="tns:createSessionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendExpressGroupMessage">
+      <wsdl:input name="sendExpressGroupMessage" message="tns:sendExpressGroupMessage" />
+      <wsdl:output name="sendExpressGroupMessageResponse" message="tns:sendExpressGroupMessageResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addNumberListToWhitelist">
+      <wsdl:input name="addNumberListToWhitelist" message="tns:addNumberListToWhitelist" />
+      <wsdl:output name="addNumberListToWhitelistResponse" message="tns:addNumberListToWhitelistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addNumberToWhitelist">
+      <wsdl:input name="addNumberToWhitelist" message="tns:addNumberToWhitelist" />
+      <wsdl:output name="addNumberToWhitelistResponse" message="tns:addNumberToWhitelistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addNumberToGroup">
+      <wsdl:input name="addNumberToGroup" message="tns:addNumberToGroup" />
+      <wsdl:output name="addNumberToGroupResponse" message="tns:addNumberToGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getNumbersInGroup">
+      <wsdl:input name="getNumbersInGroup" message="tns:getNumbersInGroup" />
+      <wsdl:output name="getNumbersInGroupResponse" message="tns:getNumbersInGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteGroup">
+      <wsdl:input name="deleteGroup" message="tns:deleteGroup" />
+      <wsdl:output name="deleteGroupResponse" message="tns:deleteGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendMessages">
+      <wsdl:input name="sendMessages" message="tns:sendMessages" />
+      <wsdl:output name="sendMessagesResponse" message="tns:sendMessagesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMessagesFromLongNUmber">
+      <wsdl:input name="getMessagesFromLongNUmber" message="tns:getMessagesFromLongNUmber" />
+      <wsdl:output name="getMessagesFromLongNUmberResponse" message="tns:getMessagesFromLongNUmberResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="serviceTest">
+      <wsdl:input name="serviceTest" message="tns:serviceTest" />
+      <wsdl:output name="serviceTestResponse" message="tns:serviceTestResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberListFromGroup">
+      <wsdl:input name="removeNumberListFromGroup" message="tns:removeNumberListFromGroup" />
+      <wsdl:output name="removeNumberListFromGroupResponse" message="tns:removeNumberListFromGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="renewSession">
+      <wsdl:input name="renewSession" message="tns:renewSession" />
+      <wsdl:output name="renewSessionResponse" message="tns:renewSessionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberFromWhitelist">
+      <wsdl:input name="removeNumberFromWhitelist" message="tns:removeNumberFromWhitelist" />
+      <wsdl:output name="removeNumberFromWhitelistResponse" message="tns:removeNumberFromWhitelistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberFromBlacklist">
+      <wsdl:input name="removeNumberFromBlacklist" message="tns:removeNumberFromBlacklist" />
+      <wsdl:output name="removeNumberFromBlacklistResponse" message="tns:removeNumberFromBlacklistResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="closeSession">
+      <wsdl:input name="closeSession" message="tns:closeSession" />
+      <wsdl:output name="closeSessionResponse" message="tns:closeSessionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendGroupMessage">
+      <wsdl:input name="sendGroupMessage" message="tns:sendGroupMessage" />
+      <wsdl:output name="sendGroupMessageResponse" message="tns:sendGroupMessageResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addNumberListToGroup">
+      <wsdl:input name="addNumberListToGroup" message="tns:addNumberListToGroup" />
+      <wsdl:output name="addNumberListToGroupResponse" message="tns:addNumberListToGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="isSession">
+      <wsdl:input name="isSession" message="tns:isSession" />
+      <wsdl:output name="isSessionResponse" message="tns:isSessionResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EnterpriseSMSImplServiceSoapBinding" type="tns:EnterpriseSMSWS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getMessagesFromShortcode">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getMessagesFromShortcode">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMessagesFromShortcodeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeliveryReports">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDeliveryReports">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDeliveryReportsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberFromGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="removeNumberFromGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeNumberFromGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSentMessageReports">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSentMessageReports">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSentMessageReportsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberListFromWhitelist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="removeNumberListFromWhitelist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeNumberListFromWhitelistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendExpressMessage">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="sendExpressMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendExpressMessageResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNumberListToBlacklist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addNumberListToBlacklist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addNumberListToBlacklistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNumberToBlacklist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addNumberToBlacklist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addNumberToBlacklistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberListFromBlacklist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="removeNumberListFromBlacklist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeNumberListFromBlacklistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="createGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createSession">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="createSession">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createSessionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendExpressGroupMessage">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="sendExpressGroupMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendExpressGroupMessageResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNumberListToWhitelist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addNumberListToWhitelist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addNumberListToWhitelistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNumberToWhitelist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addNumberToWhitelist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addNumberToWhitelistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNumberToGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addNumberToGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addNumberToGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="deleteGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNumbersInGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getNumbersInGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNumbersInGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendMessages">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="sendMessages">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendMessagesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMessagesFromLongNUmber">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getMessagesFromLongNUmber">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMessagesFromLongNUmberResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="serviceTest">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="serviceTest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="serviceTestResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberListFromGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="removeNumberListFromGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeNumberListFromGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="renewSession">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="renewSession">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="renewSessionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberFromWhitelist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="removeNumberFromWhitelist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeNumberFromWhitelistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNumberFromBlacklist">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="removeNumberFromBlacklist">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeNumberFromBlacklistResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="closeSession">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="closeSession">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="closeSessionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendGroupMessage">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="sendGroupMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendGroupMessageResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNumberListToGroup">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addNumberListToGroup">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addNumberListToGroupResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isSession">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isSession">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isSessionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EnterpriseSMSImplService">
+    <wsdl:port name="EnterpriseSMSImplPort" binding="tns:EnterpriseSMSImplServiceSoapBinding">
+      <soap:address location="http://202.129.232.190:8585/EnterpriseSMS/EnterpriseSMSWS.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
