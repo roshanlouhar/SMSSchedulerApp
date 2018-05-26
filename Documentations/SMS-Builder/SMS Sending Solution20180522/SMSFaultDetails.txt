@@ -1,0 +1,51 @@
+SLCFaults table is as follows -
+
+slcFaultid = Primary Key, Autonumber
+SLCFaultName
+SLCFaultValue
+SLCFaultDescription
+other
+gf
+
+For Phase=1
+if r=1 then LED ON 
+else
+if r=0 then LED OFF
+
+For Phase=3
+if r= 1 or y=1 or b=1 then LED ON
+else
+LED OFF
+
+fault_ov = 1 = Over Voltage = Other = 1
+fault_uv = 1 = Under Voltage = Other = 1
+fault_ol = 1 = Over Load = Other = 1 
+fault_ul = 1 = Under Load = Other = 1
+fault_of = 1 = Over Frequency = Other = 1
+fault_uf = 1 = Under Frequency = Other = 1
+fault_ot = 1 = Over Temperature = Other = 1
+fault_gf = 1 = Grouf Failure = gf=1
+fault_pd = 1 = Power Down = Other = 1
+fault_pu = 1 = Power Up = Other = 1
+fault_zv = 1 = Power Fail = Other = 1
+fault_nv = 1 = NV Fault = Other = 1
+
+aux1 = 1 = R I/P MCB Trip = Other = 1
+aux2 = 1 = Y I/P MCB Trip = Other = 1 (Only for Phase 3)
+aux3 = 1 = B I/P MCB Trip = Other = 1 (Only for Phase 3)
+aux4 = 1 = R O/P MCP Trip = Other = 1
+aux5 = 1 = Y O/P MCP Trip = Other = 1  (Only for Phase 3)
+aux6 = 1 = B O/P MCP Trip = Other = 1 (Only for Phase 3)
+aux7 = 1 = Contactor Failure = Other =1 
+aux 8 = 1 = Panel Door Open = Other = 1
+
+r_failure > 0 = R Failure Value = Other = 1
+y_failure > 0 = Y Failure Value = Other = 1 
+b_failure > 0 = Y Failure Value = Other = 1
+
+n = 1 = n failure = Other = 1
+s1 = 1 = S1 failure = Other = 1
+s2 = 1 = S2 failure = Other = 1
+s3 = 1 = S3 failure = Other = 1
+s4 = 1 = S4 failure = Other = 1
+boost = 1 = boost failure = other = 1

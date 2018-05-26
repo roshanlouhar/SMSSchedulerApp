@@ -1,0 +1,6 @@
+CREATE TABLE `smsenthistory` (
+  `deviceid` int(11) DEFAULT NULL,
+  `sentdate` date DEFAULT NULL,
+  `senttime` varchar(15) DEFAULT NULL,
+  `statusid` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

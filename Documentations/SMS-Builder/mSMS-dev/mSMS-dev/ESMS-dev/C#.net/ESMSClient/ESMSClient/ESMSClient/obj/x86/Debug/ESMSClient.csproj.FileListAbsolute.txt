@@ -1,0 +1,22 @@
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\bin\Debug\ESMSClient.exe.config
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\bin\Debug\ESMSClient.exe
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\bin\Debug\ESMSClient.pdb
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.Form1.resources
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.Properties.Resources.resources
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.exe
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.pdb
+C:\Users\akalankad\Documents\Mobitel\ESMS\ESMSClient\ESMSClient\ESMSClient\bin\Debug\ESMSClient.exe.config
+C:\Users\akalankad\Documents\Mobitel\ESMS\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.exe
+C:\Users\akalankad\Documents\Mobitel\ESMS\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.pdb
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\bin\Debug\ESMSClient.exe.config
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.exe
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.pdb
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\bin\Debug\ESMSClient.exe
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\bin\Debug\ESMSClient.pdb
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.csprojResolveAssemblyReference.cache
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.Form1.resources
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.Properties.Resources.resources
+C:\Users\rolouhar\Desktop\SMS-Builder\mSMS-dev\mSMS-dev\ESMS-dev\C#.net\ESMSClient\ESMSClient\ESMSClient\obj\x86\Debug\ESMSClient.csproj.GenerateResource.Cache

@@ -1,0 +1,5 @@
+CREATE TABLE `statusmaster` (
+  `statusid` int(6) NOT NULL AUTO_INCREMENT,
+  `statusname` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`statusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

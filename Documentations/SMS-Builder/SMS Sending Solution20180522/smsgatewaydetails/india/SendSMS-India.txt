@@ -1,0 +1,22 @@
+function SendSMS(recp,msg)
+		dim str0
+		dim sender
+		dim postto
+		user="29prash"
+		password="nn1234"
+		sender="SLCSMS"		
+		msg=left(msg,160)
+		postto="http://quicksms.in/sendsms.asp"
+		'--------------------------------------------------------------
+		str0 = "user=" & user & "&password=" & password & "&PhoneNumber=" & recp & "&sender=" & server.urlencode(sender) & "&Text=" & Server.URLEncode(msg) 
+		on error resume next
+		set objHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
+		objHttp.open "GET", postto & "?" & str0 , false
+		objHttp.setTimeouts 10000, 10000, 10000, 10000
+		objHttp.Send ""
+		status=objHttp.status
+		SendSMS=objHttp.responseText
+		on error goto 0
+		'--------------------------------------------------------------
+		set objHttp = nothing
+end function

@@ -1,0 +1,9 @@
+CREATE TABLE `cp` (
+  `cpid` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `deviceid` int(11) DEFAULT '0',
+  `name` varchar(30) DEFAULT '',
+  `address` varchar(100) DEFAULT NULL,
+  `mobile` varchar(10) DEFAULT '',
+  PRIMARY KEY (`cpid`),
+  KEY `deviceid` (`deviceid`)
+) ENGINE=MyISAM AUTO_INCREMENT=5922 DEFAULT CHARSET=latin1;

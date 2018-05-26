@@ -1,0 +1,10 @@
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\bin\Release\ESMSClient.exe.config
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\bin\Release\ESMSClient.exe
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\bin\Release\ESMSClient.pdb
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\ResolveAssemblyReference.cache
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\ESMSClient.Form1.resources
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\ESMSClient.Properties.Resources.resources
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\GenerateResource.read.1.tlog
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\GenerateResource.write.1.tlog
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\ESMSClient.exe
+c:\users\akalankad\documents\visual studio 2010\Projects\ESMSClient\ESMSClient\obj\x86\Release\ESMSClient.pdb

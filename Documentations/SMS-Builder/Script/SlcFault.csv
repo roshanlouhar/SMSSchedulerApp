@@ -1,0 +1,33 @@
+﻿SLCFaultid,SLCFaultName,SLCFaultDescription,SLCFaultSeverity,Other,gf,Phase_1,Phase_3
+1,"fault_ov ",Over Voltage,High,1,0,1,1
+2,"fault_uv ",Under Voltage,High,1,0,1,1
+3,"fault_ol ",Over Load,High,1,0,1,1
+4,"fault_ul ",Under Load,High,1,0,1,1
+5,"fault_of ",Over Frequency,High,1,0,1,1
+6,"fault_uf ",Under Frequency,High,1,0,1,1
+7,"fault_ot ",Over Temperature,High,1,0,1,1
+8,"fault_gf ",Group Failure,High,0,1,1,1
+9,"fault_pd ",Power Down,High,1,0,1,1
+10,"fault_pu ",Power Up,High,1,0,1,1
+11,"fault_zv ",Power Fail,High,1,0,1,1
+12,"fault_nv ",NV Fault,High,1,0,1,1
+13,"aux1 ",R I/P MCB Trip,High,1,0,1,1
+14,"aux2 ",Y I/P MCB Trip,High,1,0,0,1
+15,aux3,B I/P MCB Trip,High,1,0,0,1
+16,aux4,R O/P MCP Trip,High,1,0,1,1
+17,aux5,Y O/P MCP Trip,High,1,0,0,1
+18,aux6,B O/P MCP Trip,High,1,0,0,1
+19,aux7,Contactor Failure,High,1,0,1,1
+20,aux8,Panel Door Open,High,1,0,1,1
+21,"r_failure ","R Failure ",High,1,0,1,1
+22,"y_failure ","Y Failure ",High,1,0,0,1
+25,b_failure,"Y Failure ",High,1,0,0,1
+26,n,"N failure ",High,1,0,1,1
+27,s1,"s1 failure ",High,1,0,1,1
+28,s2,"s2 failure ",High,1,0,1,1
+29,s3,"s3 failure ",High,1,0,1,1
+30,s4,"s4 failure ",High,1,0,1,1
+31,"boost ",boost failure,High,1,0,1,1
+32,r,R Phase,High,0,0,1,1
+33,y,Y Phase,High,0,0,1,1
+34,B,B Phase,High,0,0,1,1

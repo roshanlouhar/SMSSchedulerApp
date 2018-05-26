@@ -1,0 +1,65 @@
+﻿slcFaultValuesId,slcFaultId,Value,Description
+1,1,0,Over Voltage Fixed
+2,1,1,Over Voltage Occurred
+3,2,0,Under Voltage Fixed
+4,2,1,Under Voltage Occurred
+5,3,0,Over  Load Fixed
+6,3,1,Over Load Occurred
+7,4,0,Under Load Fixed
+8,4,1,Under Load Occurred
+9,5,0,Over Frequency Fixed
+10,5,1,Over Frequency Occurred
+11,6,0,Under Frequency Fixed
+12,6,1,Under Frequency Occurred
+13,7,0,Over Temperature Fixed
+14,7,1,Over Temperature Occurred
+15,8,0,Group Failure Fixed
+16,8,1,Group Failure Occurred
+17,9,0,Power Down Fixed
+18,9,1,Power Down Occurred
+19,10,0,Power Up Fixed
+20,10,1,Power Up Occurred
+21,11,0,Power Fail Fixed
+22,11,1,Power Fail Occurred
+23,12,0,NV Fault Fixed
+24,12,1,NV Fault Occurred
+25,13,0,R I/P MCB Trip Fixed
+26,13,1,R I/P MCB Trip Occurred
+27,14,0,Y I/P MCB Trip Fixed
+28,14,1,Y I/P MCB Trip Occurred
+29,15,0,B I/P MCB Trip Fixed
+30,15,1,B I/P MCB Trip Occurred
+31,16,0,R O/P MCB Trip Fixed
+32,16,1,R O/P MCB Trip  Occurred
+33,17,0,Y O/P MCB Trip Fixed
+34,17,1,Y O/P MCB Trip  Occurred
+35,18,0,B O/P MCB Trip Fixed
+36,18,1,B O/P MCB Trip Occurred
+37,19,0,Contractor Failure Fixed
+38,19,1,Contractor Failure Occurred
+39,20,0,Panel Door Open Fixed
+40,20,1,Panel Door Open Occurred
+41,21,0,R Failure Fixed
+42,21,>0,R Failure Occurred
+43,22,0,Y Failure Fixed
+44,22,>0,Y Failure Occurred
+45,25,0,B Failure Fixed
+46,25,>0,B Failure Occurred
+47,26,0,n Failure Fixed
+48,26,1,n Failure Occurred
+49,27,0,S1 Failure Fixed
+50,27,1,S1 Failure Occurred
+51,28,0,S2 Failure Fixed
+52,28,1,S2 Failure Occurred
+53,29,0,S3 Failure Fixed
+54,29,1,S3 Failure Occurred
+55,30,0,S4 Failure Fixed
+56,30,1,S4 Failure Occurred
+57,31,0,Boost Failure Fixed
+58,31,1,Boost Failure Occurred
+59,32,0,LED OFF
+60,32,1,LED ON
+61,33,0,LED OFF
+62,33,1,LED ON
+63,34,0,LED OFF
+64,34,1,LED ON

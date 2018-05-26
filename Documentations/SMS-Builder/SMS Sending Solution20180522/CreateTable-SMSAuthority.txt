@@ -1,0 +1,6 @@
+CREATE TABLE `smsauthority` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `cityid` int(4) DEFAULT NULL,
+  `issend` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
