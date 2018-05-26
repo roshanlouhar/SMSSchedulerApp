@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,8 +71,8 @@ namespace MsgSchedulerApp
         {
             try
             {
-                TxtStatusHistory.Text += Environment.NewLine + " Reading Device Fault Information...";
-                string query = "select se.* from slcevents se  inner join slc_devices sd on se._deviceid_ = sd._deviceid_  where se._IsAlertProcessed_ = 0  ;";
+                TxtStatusHistory.Text += Environment.NewLine + " Reading Device Fault Information..." + Environment.NewLine;
+                string query = "select se.* from slcevents se  inner join slc_devices sd on se._deviceid_ = sd._deviceid_  where se._IsAlertProcessed_ = 0 ;";
                 DataTable dtFaultEvent = context.Select(query);
                 if (dtFaultEvent != null && dtFaultEvent.Rows.Count > 0)
                 {
@@ -101,7 +102,7 @@ namespace MsgSchedulerApp
                 TxtStatusHistory.Text += Environment.NewLine + " Device ID " + row["_deviceid_"];
 
                 TxtStatusHistory.Text += Environment.NewLine + " Reading SMS Service Enability for this Device……….";
-                string query = "select * from  slc_devices where _deviceid_ =" + row["_deviceid_"] + ";";
+                string query = "select * from  slc_devices where _deviceid_ =" + row["_deviceid_"] + " limit 1 ;";
                 DataTable dtslcDevices = context.Select(query);
                 if (dtslcDevices != null && dtslcDevices.Rows.Count > 0)
                 {
@@ -112,7 +113,7 @@ namespace MsgSchedulerApp
                     {
                         TxtStatusHistory.Text += Environment.NewLine + " SMS Service Enabled for this Device……….";
 
-                        query = "select * from cp where _deviceid_ =" + row["_deviceid_"] + "; ";
+                        query = "select distinct  _mobile_ from cp where _deviceid_ =" + row["_deviceid_"] + "; ";
                         DataTable dtCPUser = context.Select(query);
                         if (dtCPUser != null && dtCPUser.Rows.Count > 0)
                         {
@@ -143,8 +144,9 @@ namespace MsgSchedulerApp
                                 if (result)
                                 {
                                     TxtStatusHistory.Text += Environment.NewLine + " SMS sent Successfully to all Users……….";
-                                    TxtStatusHistory.Text += Environment.NewLine + " Logging the SMS Data……….";
-                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid)VALUES('" + row["_deviceid_"] + "','" + DateTime.Now.Date + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
+                                    TxtStatusHistory.Text += Environment.NewLine + " Logging the SMS Data………." + Environment.NewLine;
+
+                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid)VALUES('" + row["_deviceid_"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
 
                                     query = "update slcevents set _IsAlertProcessed_ = '1' where _id_ =" + row["_id_"] + "; ";
@@ -152,9 +154,9 @@ namespace MsgSchedulerApp
                                 }
                                 else
                                 {
-                                    TxtStatusHistory.Text += Environment.NewLine + " Error while sending sms to all Users……….";
+                                    TxtStatusHistory.Text += Environment.NewLine + " Error while sending sms to all Users………." + Environment.NewLine;
 
-                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["_deviceid_"] + "','" + DateTime.Now.Date + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
+                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["_deviceid_"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
 
                                     query = "update slcevents set _IsAlertProcessed_ = '1' where _id_ =" + row["_id_"] + "; ";
@@ -163,28 +165,28 @@ namespace MsgSchedulerApp
                             }
                             else
                             {
-                                TxtStatusHistory.Text += Environment.NewLine + " Previous record not found for the devices...";
+                                TxtStatusHistory.Text += Environment.NewLine + " Previous record not found for the devices..." + Environment.NewLine;
                             }
                         }
                         else
                         {
-                            TxtStatusHistory.Text += Environment.NewLine + " User is not available for this device " + row["_deviceid_"];
+                            TxtStatusHistory.Text += Environment.NewLine + " User is not available for this device " + row["_deviceid_"] + Environment.NewLine;
                         }
                     }
                     else
                     {
                         TxtStatusHistory.Text += Environment.NewLine + " SMS Service NOT Enabled for this Device……….";
-                        TxtStatusHistory.Text += Environment.NewLine + " END Device Processing";
+                        TxtStatusHistory.Text += Environment.NewLine + " END Device Processing" + Environment.NewLine;
                     }
                 }
                 else
                 {
-                    TxtStatusHistory.Text += Environment.NewLine + " SLc Devices information not found in database...";
+                    TxtStatusHistory.Text += Environment.NewLine + " SLc Devices information not found in database..." + Environment.NewLine;
                 }
             }
             catch (Exception ex)
             {
-                TxtStatusHistory.Text += Environment.NewLine + " Error while processing data……….";
+                TxtStatusHistory.Text += Environment.NewLine + " Error while processing data………." + Environment.NewLine;
             }
         }
 
