@@ -72,7 +72,7 @@ namespace MsgSchedulerApp
             try
             {
                 TxtStatusHistory.Text += Environment.NewLine + " Reading Device Fault Information..." + Environment.NewLine;
-                string query = "select se.* from slcevents se  inner join slc_devices sd on se._deviceid_ = sd._deviceid_  where se._IsAlertProcessed_ = 0 ;";
+                string query = "select se.* from slcevents se inner join slc_devices sd on se.deviceid = sd.deviceid  where se.IsAlertProcessed = 0 ;";
                 DataTable dtFaultEvent = context.Select(query);
                 if (dtFaultEvent != null && dtFaultEvent.Rows.Count > 0)
                 {
@@ -99,30 +99,30 @@ namespace MsgSchedulerApp
             try
             {
                 TxtStatusHistory.Text += Environment.NewLine + " START Device Processing";
-                TxtStatusHistory.Text += Environment.NewLine + " Device ID " + row["_deviceid_"];
+                TxtStatusHistory.Text += Environment.NewLine + " Device ID " + row["deviceid"];
 
                 TxtStatusHistory.Text += Environment.NewLine + " Reading SMS Service Enability for this Device……….";
-                string query = "select * from  slc_devices where _deviceid_ =" + row["_deviceid_"] + " limit 1 ;";
+                string query = "select * from  slc_devices where deviceid =" + row["deviceid"] + " limit 1 ;";
                 DataTable dtslcDevices = context.Select(query);
                 if (dtslcDevices != null && dtslcDevices.Rows.Count > 0)
                 {
-                    string cityId = Convert.ToString(dtslcDevices.Rows[0]["_city_"]);
+                    string cityId = Convert.ToString(dtslcDevices.Rows[0]["city"]);
                     query = "select count(*) as Issend from smsauthority where cityid =" + cityId + " and issend =1 ;";
                     int count = context.Count(query);
                     if (count > 0)
                     {
                         TxtStatusHistory.Text += Environment.NewLine + " SMS Service Enabled for this Device……….";
 
-                        query = "select distinct  _mobile_ from cp where _deviceid_ =" + row["_deviceid_"] + "; ";
+                        query = "select distinct  mobile from cp where deviceid =" + row["deviceid"] + "; ";
                         DataTable dtCPUser = context.Select(query);
                         if (dtCPUser != null && dtCPUser.Rows.Count > 0)
                         {
                             //string msgBody = PrepareSmsMessage(row, dtSlcFaultInfo, dtslcDevices);
-                            var SelectedValues = dtCPUser.AsEnumerable().Select(s => s.Field<string>("_mobile_")).ToArray().Distinct();
+                            var SelectedValues = dtCPUser.AsEnumerable().Select(s => s.Field<string>("mobile")).ToArray().Distinct();
                             string mobile = string.Join(",", SelectedValues);
 
                             TxtStatusHistory.Text += Environment.NewLine + " Sending SMS to the Users of the Device……….";
-                            query = "select  * from slcevents where _deviceid_ ='" + row["_deviceid_"] + "' and _id_ < " + row["_id_"] + " order by _dt_ desc limit 1 ; ";
+                            query = "select  * from slcevents where deviceid ='" + row["deviceid"] + "' and id < " + row["id"] + " order by dt desc limit 1 ; ";
                             DataTable dtPreviousRow = context.Select(query);
                             DataRow PreviousRow;
                             if (dtPreviousRow != null && dtPreviousRow.Rows.Count > 0)
@@ -146,20 +146,20 @@ namespace MsgSchedulerApp
                                     TxtStatusHistory.Text += Environment.NewLine + " SMS sent Successfully to all Users……….";
                                     TxtStatusHistory.Text += Environment.NewLine + " Logging the SMS Data………." + Environment.NewLine;
 
-                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid)VALUES('" + row["_deviceid_"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
+                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid)VALUES('" + row["deviceid"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
 
-                                    query = "update slcevents set _IsAlertProcessed_ = '1' where _id_ =" + row["_id_"] + "; ";
+                                    query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
                                     context.Update(query);
                                 }
                                 else
                                 {
                                     TxtStatusHistory.Text += Environment.NewLine + " Error while sending sms to all Users………." + Environment.NewLine;
 
-                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["_deviceid_"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
+                                    query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["deviceid"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
 
-                                    query = "update slcevents set _IsAlertProcessed_ = '1' where _id_ =" + row["_id_"] + "; ";
+                                    query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
                                     context.Update(query);
                                 }
                             }
@@ -170,7 +170,7 @@ namespace MsgSchedulerApp
                         }
                         else
                         {
-                            TxtStatusHistory.Text += Environment.NewLine + " User is not available for this device " + row["_deviceid_"] + Environment.NewLine;
+                            TxtStatusHistory.Text += Environment.NewLine + " User is not available for this device " + row["deviceid"] + Environment.NewLine;
                         }
                     }
                     else
@@ -199,83 +199,83 @@ namespace MsgSchedulerApp
             try
             {
                 string SLCFaultDescription, SLCFaultSeverity = null;
-                string CurrentEventid_ = Convert.ToString(CurrentRowfault["_id_"]),
-                    Current_slcid_ = Convert.ToString(CurrentRowfault["_slcid_"])
-                    , Current_deviceid_ = Convert.ToString(CurrentRowfault["_deviceid_"])
-                    , Current_dt_ = Convert.ToString(CurrentRowfault["_dt_"])
-                    , Current_aux1_ = Convert.ToString(CurrentRowfault["_aux1_"])
-                    , Current_aux2_ = Convert.ToString(CurrentRowfault["_aux2_"])
-                    , Current_aux3_ = Convert.ToString(CurrentRowfault["_aux3_"])
-                    , Current_aux4_ = Convert.ToString(CurrentRowfault["_aux4_"])
-                    , Current_aux5_ = Convert.ToString(CurrentRowfault["_aux5_"])
-                    , Current_aux6_ = Convert.ToString(CurrentRowfault["_aux6_"])
-                    , Current_aux7_ = Convert.ToString(CurrentRowfault["_aux7_"])
-                    , Current_aux8_ = Convert.ToString(CurrentRowfault["_aux8_"])
-                    , Current_r_failure_ = Convert.ToString(CurrentRowfault["_r_failure_"])
-                    , Current_y_failure_ = Convert.ToString(CurrentRowfault["_y_failure_"])
-                    , Current_b_failure_ = Convert.ToString(CurrentRowfault["_b_failure_"])
-                    , Current_r_ = Convert.ToString(CurrentRowfault["_r_"])
-                    , Current_y_ = Convert.ToString(CurrentRowfault["_y_"])
-                    , Current_b_ = Convert.ToString(CurrentRowfault["_b_"])
-                    , Current_fault_ov_ = Convert.ToString(CurrentRowfault["_fault_ov_"])
-                    , Current_fault_uv_ = Convert.ToString(CurrentRowfault["_fault_uv_"])
-                    , Current_fault_OL_ = Convert.ToString(CurrentRowfault["_fault_OL_"])
-                    , Current_fault_UL_ = Convert.ToString(CurrentRowfault["_fault_UL_"])
-                    , Current_fault_OF_ = Convert.ToString(CurrentRowfault["_fault_OF_"])
-                    , Current_fault_UF_ = Convert.ToString(CurrentRowfault["_fault_UF_"])
-                    , Current_fault_OT_ = Convert.ToString(CurrentRowfault["_fault_OT_"])
-                    , Current_fault_GF_ = Convert.ToString(CurrentRowfault["_fault_GF_"])
-                    , Current_fault_PD_ = Convert.ToString(CurrentRowfault["_fault_PD_"])
-                    , Current_fault_PU_ = Convert.ToString(CurrentRowfault["_fault_PU_"])
-                    , Current_fault_ZV_ = Convert.ToString(CurrentRowfault["_fault_ZV_"])
-                    , Current_fault_NV_ = Convert.ToString(CurrentRowfault["_fault_NV_"])
-                    , Current_n_ = Convert.ToString(CurrentRowfault["_n_"])
-                    , Current_s1_ = Convert.ToString(CurrentRowfault["_s1_"])
-                    , Current_s2_ = Convert.ToString(CurrentRowfault["_s2_"])
-                    , Current_s3_ = Convert.ToString(CurrentRowfault["_s3_"])
-                    , Current_s4_ = Convert.ToString(CurrentRowfault["_s4_"])
-                    , Current_boost_ = Convert.ToString(CurrentRowfault["_boost_"]);
+                string CurrentEventid_ = Convert.ToString(CurrentRowfault["id"]),
+                    Current_slcid_ = Convert.ToString(CurrentRowfault["slcid"])
+                    , Currentdeviceid = Convert.ToString(CurrentRowfault["deviceid"])
+                    , Current_dt_ = Convert.ToString(CurrentRowfault["dt"])
+                    , Current_aux1_ = Convert.ToString(CurrentRowfault["aux1"])
+                    , Current_aux2_ = Convert.ToString(CurrentRowfault["aux2"])
+                    , Current_aux3_ = Convert.ToString(CurrentRowfault["aux3"])
+                    , Current_aux4_ = Convert.ToString(CurrentRowfault["aux4"])
+                    , Current_aux5_ = Convert.ToString(CurrentRowfault["aux5"])
+                    , Current_aux6_ = Convert.ToString(CurrentRowfault["aux6"])
+                    , Current_aux7_ = Convert.ToString(CurrentRowfault["aux7"])
+                    , Current_aux8_ = Convert.ToString(CurrentRowfault["aux8"])
+                    , Current_r_failure_ = Convert.ToString(CurrentRowfault["r_failure"])
+                    , Current_y_failure_ = Convert.ToString(CurrentRowfault["y_failure"])
+                    , Current_b_failure_ = Convert.ToString(CurrentRowfault["b_failure"])
+                    , Current_r_ = Convert.ToString(CurrentRowfault["r"])
+                    , Current_y_ = Convert.ToString(CurrentRowfault["y"])
+                    , Current_b_ = Convert.ToString(CurrentRowfault["b"])
+                    , Current_fault_ov_ = Convert.ToString(CurrentRowfault["fault_ov"])
+                    , Current_fault_uv_ = Convert.ToString(CurrentRowfault["fault_uv"])
+                    , Current_fault_OL_ = Convert.ToString(CurrentRowfault["fault_OL"])
+                    , Current_fault_UL_ = Convert.ToString(CurrentRowfault["fault_UL"])
+                    , Current_fault_OF_ = Convert.ToString(CurrentRowfault["fault_OF"])
+                    , Current_fault_UF_ = Convert.ToString(CurrentRowfault["fault_UF"])
+                    , Current_fault_OT_ = Convert.ToString(CurrentRowfault["fault_OT"])
+                    , Current_fault_GF_ = Convert.ToString(CurrentRowfault["fault_GF"])
+                    , Current_fault_PD_ = Convert.ToString(CurrentRowfault["fault_PD"])
+                    , Current_fault_PU_ = Convert.ToString(CurrentRowfault["fault_PU"])
+                    , Current_fault_ZV_ = Convert.ToString(CurrentRowfault["fault_ZV"])
+                    , Current_fault_NV_ = Convert.ToString(CurrentRowfault["fault_NV"])
+                    , Current_n_ = Convert.ToString(CurrentRowfault["n"])
+                    , Current_s1_ = Convert.ToString(CurrentRowfault["s1"])
+                    , Current_s2_ = Convert.ToString(CurrentRowfault["s2"])
+                    , Current_s3_ = Convert.ToString(CurrentRowfault["s3"])
+                    , Current_s4_ = Convert.ToString(CurrentRowfault["s4"])
+                    , Current_boost_ = Convert.ToString(CurrentRowfault["boost"]);
 
-                string PrevoiusRowEventid_ = Convert.ToString(PrevoiusRowfault["_id_"]),
-                   Prevoius_slcid_ = Convert.ToString(PrevoiusRowfault["_slcid_"])
-                   , Prevoius_deviceid_ = Convert.ToString(PrevoiusRowfault["_deviceid_"])
-                   , Prevoius_dt_ = Convert.ToString(PrevoiusRowfault["_dt_"])
-                   , Prevoius_aux1_ = Convert.ToString(PrevoiusRowfault["_aux1_"])
-                   , Prevoius_aux2_ = Convert.ToString(PrevoiusRowfault["_aux2_"])
-                   , Prevoius_aux3_ = Convert.ToString(PrevoiusRowfault["_aux3_"])
-                   , Prevoius_aux4_ = Convert.ToString(PrevoiusRowfault["_aux4_"])
-                   , Prevoius_aux5_ = Convert.ToString(PrevoiusRowfault["_aux5_"])
-                   , Prevoius_aux6_ = Convert.ToString(PrevoiusRowfault["_aux6_"])
-                   , Prevoius_aux7_ = Convert.ToString(PrevoiusRowfault["_aux7_"])
-                   , Prevoius_aux8_ = Convert.ToString(PrevoiusRowfault["_aux8_"])
-                   , Prevoius_r_failure_ = Convert.ToString(PrevoiusRowfault["_r_failure_"])
-                   , Prevoius_y_failure_ = Convert.ToString(PrevoiusRowfault["_y_failure_"])
-                   , Prevoius_b_failure_ = Convert.ToString(PrevoiusRowfault["_b_failure_"])
-                   , Prevoius_r_ = Convert.ToString(PrevoiusRowfault["_r_"])
-                   , Prevoius_y_ = Convert.ToString(PrevoiusRowfault["_y_"])
-                   , Prevoius_b_ = Convert.ToString(PrevoiusRowfault["_b_"])
-                   , Prevoius_fault_ov_ = Convert.ToString(PrevoiusRowfault["_fault_ov_"])
-                   , Prevoius_fault_uv_ = Convert.ToString(PrevoiusRowfault["_fault_uv_"])
-                   , Prevoius_fault_OL_ = Convert.ToString(PrevoiusRowfault["_fault_OL_"])
-                   , Prevoius_fault_UL_ = Convert.ToString(PrevoiusRowfault["_fault_UL_"])
-                   , Prevoius_fault_OF_ = Convert.ToString(PrevoiusRowfault["_fault_OF_"])
-                   , Prevoius_fault_UF_ = Convert.ToString(PrevoiusRowfault["_fault_UF_"])
-                   , Prevoius_fault_OT_ = Convert.ToString(PrevoiusRowfault["_fault_OT_"])
-                   , Prevoius_fault_GF_ = Convert.ToString(PrevoiusRowfault["_fault_GF_"])
-                   , Prevoius_fault_PD_ = Convert.ToString(PrevoiusRowfault["_fault_PD_"])
-                   , Prevoius_fault_PU_ = Convert.ToString(PrevoiusRowfault["_fault_PU_"])
-                   , Prevoius_fault_ZV_ = Convert.ToString(PrevoiusRowfault["_fault_ZV_"])
-                   , Prevoius_fault_NV_ = Convert.ToString(PrevoiusRowfault["_fault_NV_"])
-                   , Prevoius_n_ = Convert.ToString(PrevoiusRowfault["_n_"])
-                   , Prevoius_s1_ = Convert.ToString(PrevoiusRowfault["_s1_"])
-                   , Prevoius_s2_ = Convert.ToString(PrevoiusRowfault["_s2_"])
-                   , Prevoius_s3_ = Convert.ToString(PrevoiusRowfault["_s3_"])
-                   , Prevoius_s4_ = Convert.ToString(PrevoiusRowfault["_s4_"])
-                   , Prevoius_boost_ = Convert.ToString(PrevoiusRowfault["_boost_"]);
+                string PrevoiusRowEventid_ = Convert.ToString(PrevoiusRowfault["id"]),
+                   Prevoius_slcid_ = Convert.ToString(PrevoiusRowfault["slcid"])
+                   , Prevoiusdeviceid = Convert.ToString(PrevoiusRowfault["deviceid"])
+                   , Prevoius_dt_ = Convert.ToString(PrevoiusRowfault["dt"])
+                   , Prevoius_aux1_ = Convert.ToString(PrevoiusRowfault["aux1"])
+                   , Prevoius_aux2_ = Convert.ToString(PrevoiusRowfault["aux2"])
+                   , Prevoius_aux3_ = Convert.ToString(PrevoiusRowfault["aux3"])
+                   , Prevoius_aux4_ = Convert.ToString(PrevoiusRowfault["aux4"])
+                   , Prevoius_aux5_ = Convert.ToString(PrevoiusRowfault["aux5"])
+                   , Prevoius_aux6_ = Convert.ToString(PrevoiusRowfault["aux6"])
+                   , Prevoius_aux7_ = Convert.ToString(PrevoiusRowfault["aux7"])
+                   , Prevoius_aux8_ = Convert.ToString(PrevoiusRowfault["aux8"])
+                   , Prevoius_r_failure_ = Convert.ToString(PrevoiusRowfault["r_failure"])
+                   , Prevoius_y_failure_ = Convert.ToString(PrevoiusRowfault["y_failure"])
+                   , Prevoius_b_failure_ = Convert.ToString(PrevoiusRowfault["b_failure"])
+                   , Prevoius_r_ = Convert.ToString(PrevoiusRowfault["r"])
+                   , Prevoius_y_ = Convert.ToString(PrevoiusRowfault["y"])
+                   , Prevoius_b_ = Convert.ToString(PrevoiusRowfault["b"])
+                   , Prevoius_fault_ov_ = Convert.ToString(PrevoiusRowfault["fault_ov"])
+                   , Prevoius_fault_uv_ = Convert.ToString(PrevoiusRowfault["fault_uv"])
+                   , Prevoius_fault_OL_ = Convert.ToString(PrevoiusRowfault["fault_OL"])
+                   , Prevoius_fault_UL_ = Convert.ToString(PrevoiusRowfault["fault_UL"])
+                   , Prevoius_fault_OF_ = Convert.ToString(PrevoiusRowfault["fault_OF"])
+                   , Prevoius_fault_UF_ = Convert.ToString(PrevoiusRowfault["fault_UF"])
+                   , Prevoius_fault_OT_ = Convert.ToString(PrevoiusRowfault["fault_OT"])
+                   , Prevoius_fault_GF_ = Convert.ToString(PrevoiusRowfault["fault_GF"])
+                   , Prevoius_fault_PD_ = Convert.ToString(PrevoiusRowfault["fault_PD"])
+                   , Prevoius_fault_PU_ = Convert.ToString(PrevoiusRowfault["fault_PU"])
+                   , Prevoius_fault_ZV_ = Convert.ToString(PrevoiusRowfault["fault_ZV"])
+                   , Prevoius_fault_NV_ = Convert.ToString(PrevoiusRowfault["fault_NV"])
+                   , Prevoius_n_ = Convert.ToString(PrevoiusRowfault["n"])
+                   , Prevoius_s1_ = Convert.ToString(PrevoiusRowfault["s1"])
+                   , Prevoius_s2_ = Convert.ToString(PrevoiusRowfault["s2"])
+                   , Prevoius_s3_ = Convert.ToString(PrevoiusRowfault["s3"])
+                   , Prevoius_s4_ = Convert.ToString(PrevoiusRowfault["s4"])
+                   , Prevoius_boost_ = Convert.ToString(PrevoiusRowfault["boost"]);
 
                 TxtStatusHistory.Text += Environment.NewLine + " Preparing SMS……….";
 
-                if (Convert.ToString(rowSlcDevices["_phase_"]) == "1")
+                if (Convert.ToString(rowSlcDevices["phase"]) == "1")
                 {
                     if (Current_r_ != Prevoius_r_)
                     {
@@ -291,7 +291,7 @@ namespace MsgSchedulerApp
                         }
                     }
                 }
-                if (Convert.ToString(rowSlcDevices["_phase_"]) == "3")
+                if (Convert.ToString(rowSlcDevices["phase"]) == "3")
                 {
                     if ((Current_r_ != Prevoius_r_) || (Current_y_ != Prevoius_y_) || (Current_b_ != Prevoius_b_))
                     {
@@ -310,8 +310,8 @@ namespace MsgSchedulerApp
                 if (!string.IsNullOrEmpty(message))
                 {
                     string result = CommonContentmessage + message + Environment.NewLine;
-                    result += CurrentRowfault["_dt_"] + Environment.NewLine + " Zone:" + rowSlcDevices["_zone_"] + Environment.NewLine + " Area:" + rowSlcDevices["_area_"];
-                    result += "-" + rowSlcDevices["_Location_"] + Environment.NewLine + "UnitID:" + rowSlcDevices["_deviceid_"] + Environment.NewLine + rowSlcDevices["_phase_"] + "Phase ";
+                    result += CurrentRowfault["dt"] + Environment.NewLine + " Zone:" + rowSlcDevices["zone"] + Environment.NewLine + " Area:" + rowSlcDevices["area"];
+                    result += "-" + rowSlcDevices["Location"] + Environment.NewLine + "UnitID:" + rowSlcDevices["deviceid"] + Environment.NewLine + rowSlcDevices["phase"] + "Phase ";
                     return result;
                 }
                 else
@@ -329,85 +329,85 @@ namespace MsgSchedulerApp
         public string PrepareFaultMessage(DataRow CurrentRowfault, DataRow PrevoiusRowfault, DataTable dtslcDevices)
         {
             DataRow rowSlcDevices = dtslcDevices.Rows[0];
-            string DevicePhase = Convert.ToString(rowSlcDevices["_phase_"]);
+            string DevicePhase = Convert.ToString(rowSlcDevices["phase"]);
             string CommonContentmessage = "STREET LIGHT ALERT " + Environment.NewLine, message = string.Empty;
 
             try
             {
                 string SLCFaultDescription, SLCFaultSeverity = null;
-                string CurrentEventid_ = Convert.ToString(CurrentRowfault["_id_"]),
-                    Current_slcid_ = Convert.ToString(CurrentRowfault["_slcid_"])
-                    , Current_deviceid_ = Convert.ToString(CurrentRowfault["_deviceid_"])
-                    , Current_dt_ = Convert.ToString(CurrentRowfault["_dt_"])
-                    , Current_aux1_ = Convert.ToString(CurrentRowfault["_aux1_"])
-                    , Current_aux2_ = Convert.ToString(CurrentRowfault["_aux2_"])
-                    , Current_aux3_ = Convert.ToString(CurrentRowfault["_aux3_"])
-                    , Current_aux4_ = Convert.ToString(CurrentRowfault["_aux4_"])
-                    , Current_aux5_ = Convert.ToString(CurrentRowfault["_aux5_"])
-                    , Current_aux6_ = Convert.ToString(CurrentRowfault["_aux6_"])
-                    , Current_aux7_ = Convert.ToString(CurrentRowfault["_aux7_"])
-                    , Current_aux8_ = Convert.ToString(CurrentRowfault["_aux8_"])
-                    , Current_r_failure_ = Convert.ToString(CurrentRowfault["_r_failure_"])
-                    , Current_y_failure_ = Convert.ToString(CurrentRowfault["_y_failure_"])
-                    , Current_b_failure_ = Convert.ToString(CurrentRowfault["_b_failure_"])
-                    , Current_r_ = Convert.ToString(CurrentRowfault["_r_"])
-                    , Current_y_ = Convert.ToString(CurrentRowfault["_y_"])
-                    , Current_b_ = Convert.ToString(CurrentRowfault["_b_"])
-                    , Current_fault_ov_ = Convert.ToString(CurrentRowfault["_fault_ov_"])
-                    , Current_fault_uv_ = Convert.ToString(CurrentRowfault["_fault_uv_"])
-                    , Current_fault_OL_ = Convert.ToString(CurrentRowfault["_fault_OL_"])
-                    , Current_fault_UL_ = Convert.ToString(CurrentRowfault["_fault_UL_"])
-                    , Current_fault_OF_ = Convert.ToString(CurrentRowfault["_fault_OF_"])
-                    , Current_fault_UF_ = Convert.ToString(CurrentRowfault["_fault_UF_"])
-                    , Current_fault_OT_ = Convert.ToString(CurrentRowfault["_fault_OT_"])
-                    , Current_fault_GF_ = Convert.ToString(CurrentRowfault["_fault_GF_"])
-                    , Current_fault_PD_ = Convert.ToString(CurrentRowfault["_fault_PD_"])
-                    , Current_fault_PU_ = Convert.ToString(CurrentRowfault["_fault_PU_"])
-                    , Current_fault_ZV_ = Convert.ToString(CurrentRowfault["_fault_ZV_"])
-                    , Current_fault_NV_ = Convert.ToString(CurrentRowfault["_fault_NV_"])
-                    , Current_n_ = Convert.ToString(CurrentRowfault["_n_"])
-                    , Current_s1_ = Convert.ToString(CurrentRowfault["_s1_"])
-                    , Current_s2_ = Convert.ToString(CurrentRowfault["_s2_"])
-                    , Current_s3_ = Convert.ToString(CurrentRowfault["_s3_"])
-                    , Current_s4_ = Convert.ToString(CurrentRowfault["_s4_"])
-                    , Current_boost_ = Convert.ToString(CurrentRowfault["_boost_"]);
+                string CurrentEventid_ = Convert.ToString(CurrentRowfault["id"]),
+                    Current_slcid_ = Convert.ToString(CurrentRowfault["slcid"])
+                    , Currentdeviceid = Convert.ToString(CurrentRowfault["deviceid"])
+                    , Current_dt_ = Convert.ToString(CurrentRowfault["dt"])
+                    , Current_aux1_ = Convert.ToString(CurrentRowfault["aux1"])
+                    , Current_aux2_ = Convert.ToString(CurrentRowfault["aux2"])
+                    , Current_aux3_ = Convert.ToString(CurrentRowfault["aux3"])
+                    , Current_aux4_ = Convert.ToString(CurrentRowfault["aux4"])
+                    , Current_aux5_ = Convert.ToString(CurrentRowfault["aux5"])
+                    , Current_aux6_ = Convert.ToString(CurrentRowfault["aux6"])
+                    , Current_aux7_ = Convert.ToString(CurrentRowfault["aux7"])
+                    , Current_aux8_ = Convert.ToString(CurrentRowfault["aux8"])
+                    , Current_r_failure_ = Convert.ToString(CurrentRowfault["r_failure"])
+                    , Current_y_failure_ = Convert.ToString(CurrentRowfault["y_failure"])
+                    , Current_b_failure_ = Convert.ToString(CurrentRowfault["b_failure"])
+                    , Current_r_ = Convert.ToString(CurrentRowfault["r"])
+                    , Current_y_ = Convert.ToString(CurrentRowfault["y"])
+                    , Current_b_ = Convert.ToString(CurrentRowfault["b"])
+                    , Current_fault_ov_ = Convert.ToString(CurrentRowfault["fault_ov"])
+                    , Current_fault_uv_ = Convert.ToString(CurrentRowfault["fault_uv"])
+                    , Current_fault_OL_ = Convert.ToString(CurrentRowfault["fault_OL"])
+                    , Current_fault_UL_ = Convert.ToString(CurrentRowfault["fault_UL"])
+                    , Current_fault_OF_ = Convert.ToString(CurrentRowfault["fault_OF"])
+                    , Current_fault_UF_ = Convert.ToString(CurrentRowfault["fault_UF"])
+                    , Current_fault_OT_ = Convert.ToString(CurrentRowfault["fault_OT"])
+                    , Current_fault_GF_ = Convert.ToString(CurrentRowfault["fault_GF"])
+                    , Current_fault_PD_ = Convert.ToString(CurrentRowfault["fault_PD"])
+                    , Current_fault_PU_ = Convert.ToString(CurrentRowfault["fault_PU"])
+                    , Current_fault_ZV_ = Convert.ToString(CurrentRowfault["fault_ZV"])
+                    , Current_fault_NV_ = Convert.ToString(CurrentRowfault["fault_NV"])
+                    , Current_n_ = Convert.ToString(CurrentRowfault["n"])
+                    , Current_s1_ = Convert.ToString(CurrentRowfault["s1"])
+                    , Current_s2_ = Convert.ToString(CurrentRowfault["s2"])
+                    , Current_s3_ = Convert.ToString(CurrentRowfault["s3"])
+                    , Current_s4_ = Convert.ToString(CurrentRowfault["s4"])
+                    , Current_boost_ = Convert.ToString(CurrentRowfault["boost"]);
 
-                string PrevoiusRowEventid_ = Convert.ToString(PrevoiusRowfault["_id_"]),
-                   Prevoius_slcid_ = Convert.ToString(PrevoiusRowfault["_slcid_"])
-                   , Prevoius_deviceid_ = Convert.ToString(PrevoiusRowfault["_deviceid_"])
-                   , Prevoius_dt_ = Convert.ToString(PrevoiusRowfault["_dt_"])
-                   , Prevoius_aux1_ = Convert.ToString(PrevoiusRowfault["_aux1_"])
-                   , Prevoius_aux2_ = Convert.ToString(PrevoiusRowfault["_aux2_"])
-                   , Prevoius_aux3_ = Convert.ToString(PrevoiusRowfault["_aux3_"])
-                   , Prevoius_aux4_ = Convert.ToString(PrevoiusRowfault["_aux4_"])
-                   , Prevoius_aux5_ = Convert.ToString(PrevoiusRowfault["_aux5_"])
-                   , Prevoius_aux6_ = Convert.ToString(PrevoiusRowfault["_aux6_"])
-                   , Prevoius_aux7_ = Convert.ToString(PrevoiusRowfault["_aux7_"])
-                   , Prevoius_aux8_ = Convert.ToString(PrevoiusRowfault["_aux8_"])
-                   , Prevoius_r_failure_ = Convert.ToString(PrevoiusRowfault["_r_failure_"])
-                   , Prevoius_y_failure_ = Convert.ToString(PrevoiusRowfault["_y_failure_"])
-                   , Prevoius_b_failure_ = Convert.ToString(PrevoiusRowfault["_b_failure_"])
-                   , Prevoius_r_ = Convert.ToString(PrevoiusRowfault["_r_"])
-                   , Prevoius_y_ = Convert.ToString(PrevoiusRowfault["_y_"])
-                   , Prevoius_b_ = Convert.ToString(PrevoiusRowfault["_b_"])
-                   , Prevoius_fault_ov_ = Convert.ToString(PrevoiusRowfault["_fault_ov_"])
-                   , Prevoius_fault_uv_ = Convert.ToString(PrevoiusRowfault["_fault_uv_"])
-                   , Prevoius_fault_OL_ = Convert.ToString(PrevoiusRowfault["_fault_OL_"])
-                   , Prevoius_fault_UL_ = Convert.ToString(PrevoiusRowfault["_fault_UL_"])
-                   , Prevoius_fault_OF_ = Convert.ToString(PrevoiusRowfault["_fault_OF_"])
-                   , Prevoius_fault_UF_ = Convert.ToString(PrevoiusRowfault["_fault_UF_"])
-                   , Prevoius_fault_OT_ = Convert.ToString(PrevoiusRowfault["_fault_OT_"])
-                   , Prevoius_fault_GF_ = Convert.ToString(PrevoiusRowfault["_fault_GF_"])
-                   , Prevoius_fault_PD_ = Convert.ToString(PrevoiusRowfault["_fault_PD_"])
-                   , Prevoius_fault_PU_ = Convert.ToString(PrevoiusRowfault["_fault_PU_"])
-                   , Prevoius_fault_ZV_ = Convert.ToString(PrevoiusRowfault["_fault_ZV_"])
-                   , Prevoius_fault_NV_ = Convert.ToString(PrevoiusRowfault["_fault_NV_"])
-                   , Prevoius_n_ = Convert.ToString(PrevoiusRowfault["_n_"])
-                   , Prevoius_s1_ = Convert.ToString(PrevoiusRowfault["_s1_"])
-                   , Prevoius_s2_ = Convert.ToString(PrevoiusRowfault["_s2_"])
-                   , Prevoius_s3_ = Convert.ToString(PrevoiusRowfault["_s3_"])
-                   , Prevoius_s4_ = Convert.ToString(PrevoiusRowfault["_s4_"])
-                   , Prevoius_boost_ = Convert.ToString(PrevoiusRowfault["_boost_"]);
+                string PrevoiusRowEventid_ = Convert.ToString(PrevoiusRowfault["id"]),
+                   Prevoius_slcid_ = Convert.ToString(PrevoiusRowfault["slcid"])
+                   , Prevoiusdeviceid = Convert.ToString(PrevoiusRowfault["deviceid"])
+                   , Prevoius_dt_ = Convert.ToString(PrevoiusRowfault["dt"])
+                   , Prevoius_aux1_ = Convert.ToString(PrevoiusRowfault["aux1"])
+                   , Prevoius_aux2_ = Convert.ToString(PrevoiusRowfault["aux2"])
+                   , Prevoius_aux3_ = Convert.ToString(PrevoiusRowfault["aux3"])
+                   , Prevoius_aux4_ = Convert.ToString(PrevoiusRowfault["aux4"])
+                   , Prevoius_aux5_ = Convert.ToString(PrevoiusRowfault["aux5"])
+                   , Prevoius_aux6_ = Convert.ToString(PrevoiusRowfault["aux6"])
+                   , Prevoius_aux7_ = Convert.ToString(PrevoiusRowfault["aux7"])
+                   , Prevoius_aux8_ = Convert.ToString(PrevoiusRowfault["aux8"])
+                   , Prevoius_r_failure_ = Convert.ToString(PrevoiusRowfault["r_failure"])
+                   , Prevoius_y_failure_ = Convert.ToString(PrevoiusRowfault["y_failure"])
+                   , Prevoius_b_failure_ = Convert.ToString(PrevoiusRowfault["b_failure"])
+                   , Prevoius_r_ = Convert.ToString(PrevoiusRowfault["r"])
+                   , Prevoius_y_ = Convert.ToString(PrevoiusRowfault["y"])
+                   , Prevoius_b_ = Convert.ToString(PrevoiusRowfault["b"])
+                   , Prevoius_fault_ov_ = Convert.ToString(PrevoiusRowfault["fault_ov"])
+                   , Prevoius_fault_uv_ = Convert.ToString(PrevoiusRowfault["fault_uv"])
+                   , Prevoius_fault_OL_ = Convert.ToString(PrevoiusRowfault["fault_OL"])
+                   , Prevoius_fault_UL_ = Convert.ToString(PrevoiusRowfault["fault_UL"])
+                   , Prevoius_fault_OF_ = Convert.ToString(PrevoiusRowfault["fault_OF"])
+                   , Prevoius_fault_UF_ = Convert.ToString(PrevoiusRowfault["fault_UF"])
+                   , Prevoius_fault_OT_ = Convert.ToString(PrevoiusRowfault["fault_OT"])
+                   , Prevoius_fault_GF_ = Convert.ToString(PrevoiusRowfault["fault_GF"])
+                   , Prevoius_fault_PD_ = Convert.ToString(PrevoiusRowfault["fault_PD"])
+                   , Prevoius_fault_PU_ = Convert.ToString(PrevoiusRowfault["fault_PU"])
+                   , Prevoius_fault_ZV_ = Convert.ToString(PrevoiusRowfault["fault_ZV"])
+                   , Prevoius_fault_NV_ = Convert.ToString(PrevoiusRowfault["fault_NV"])
+                   , Prevoius_n_ = Convert.ToString(PrevoiusRowfault["n"])
+                   , Prevoius_s1_ = Convert.ToString(PrevoiusRowfault["s1"])
+                   , Prevoius_s2_ = Convert.ToString(PrevoiusRowfault["s2"])
+                   , Prevoius_s3_ = Convert.ToString(PrevoiusRowfault["s3"])
+                   , Prevoius_s4_ = Convert.ToString(PrevoiusRowfault["s4"])
+                   , Prevoius_boost_ = Convert.ToString(PrevoiusRowfault["boost"]);
 
                 TxtStatusHistory.Text += Environment.NewLine + " Preparing SMS……….";
 
@@ -818,8 +818,8 @@ namespace MsgSchedulerApp
                 if (!string.IsNullOrEmpty(message))
                 {
                     string result = CommonContentmessage + Environment.NewLine;
-                    result += CurrentRowfault["_dt_"] + Environment.NewLine + " Zone:" + rowSlcDevices["_zone_"] + Environment.NewLine + " Area:" + rowSlcDevices["_area_"];
-                    result += "-" + rowSlcDevices["_Location_"] + Environment.NewLine + "UnitID:" + rowSlcDevices["_deviceid_"] + Environment.NewLine + rowSlcDevices["_phase_"] + "Phase ";
+                    result += CurrentRowfault["dt"] + Environment.NewLine + " Zone:" + rowSlcDevices["zone"] + Environment.NewLine + " Area:" + rowSlcDevices["area"];
+                    result += "-" + rowSlcDevices["Location"] + Environment.NewLine + "UnitID:" + rowSlcDevices["deviceid"] + Environment.NewLine + rowSlcDevices["phase"] + "Phase ";
                     result += Environment.NewLine + message;
                     return result;
                 }
