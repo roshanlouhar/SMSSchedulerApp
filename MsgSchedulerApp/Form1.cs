@@ -23,6 +23,7 @@ namespace MsgSchedulerApp
             StartApplication();
         }
 
+        #region control events of page.
         private void TxtStatusHistory_TextChanged(object sender, EventArgs e)
         {
 
@@ -35,10 +36,25 @@ namespace MsgSchedulerApp
             StartApplication();
         }
 
+        private void btnclearLog_Click(object sender, EventArgs e)
+        {
+            TxtStatusHistory.Clear();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            TxtStatusHistory.Clear();
+            context.CloseConnection();
+            StartApplication();
+        }
+
+        #endregion
+
+        #region device processing methods 
         public void StartApplication()
         {
             //smsUtilities.processMessage("15", "8003644328", "test");
-            TxtStatusHistory.Text += "SMS Engine Started…";
+            TxtStatusHistory.Text += " SMS Engine Started…";
             SetUpDatabaseConnection();
         }
 
@@ -49,20 +65,20 @@ namespace MsgSchedulerApp
                 context = new DBConnect();
                 if (context.OpenConnection())
                 {
-                    TxtStatusHistory.Text += Environment.NewLine + "Successfully establishing Database Connections...";
+                    TxtStatusHistory.Text += Environment.NewLine + " Successfully establishing Database Connections...";
                     ReadingFaultInformation();
                     ExitSMSApp();
                 }
                 else
                 {
-                    TxtStatusHistory.Text += Environment.NewLine + "Error while establishing Database Connections...";
+                    TxtStatusHistory.Text += Environment.NewLine + " Error while establishing Database Connections...";
                     ExitSMSApp();
                 }
 
             }
             catch (Exception ex)
             {
-                TxtStatusHistory.Text += Environment.NewLine + "Error while establishing Database Connections...";
+                TxtStatusHistory.Text += Environment.NewLine + " Error while establishing Database Connections...";
                 ExitSMSApp();
             }
         }
@@ -83,7 +99,7 @@ namespace MsgSchedulerApp
                 }
                 else
                 {
-                    TxtStatusHistory.Text += Environment.NewLine + "No fault information is found during time interval....";
+                    TxtStatusHistory.Text += Environment.NewLine + " No fault information is found during time interval....";
                     ExitSMSApp();
                 }
             }
@@ -107,7 +123,7 @@ namespace MsgSchedulerApp
                 if (dtslcDevices != null && dtslcDevices.Rows.Count > 0)
                 {
                     string cityId = Convert.ToString(dtslcDevices.Rows[0]["city"]);
-                    query = "select count(*) as Issend from smsauthority where cityid =" + cityId + " and issend =1 ;";
+                    query = "select count(*) as Issend from smsauthority where cityid =" + cityId + " and issend = 1 ;";
                     int count = context.Count(query);
                     if (count > 0)
                     {
@@ -145,48 +161,49 @@ namespace MsgSchedulerApp
                                 {
                                     TxtStatusHistory.Text += Environment.NewLine + " SMS sent Successfully to all Users……….";
                                     TxtStatusHistory.Text += Environment.NewLine + " Logging the SMS Data………." + Environment.NewLine;
-
                                     query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid)VALUES('" + row["deviceid"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
-
-                                    query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
-                                    context.Update(query);
+                                    TxtStatusHistory.Text += Environment.NewLine + " END Device Processing" + Environment.NewLine + Environment.NewLine;
                                 }
                                 else
                                 {
                                     TxtStatusHistory.Text += Environment.NewLine + " Error while sending sms to all Users………." + Environment.NewLine;
+                                    TxtStatusHistory.Text += Environment.NewLine + " END Device Processing" + Environment.NewLine + Environment.NewLine;
 
                                     query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["deviceid"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
-
-                                    query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
-                                    context.Update(query);
                                 }
+                                query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
+                                context.Update(query);
                             }
                             else
                             {
                                 TxtStatusHistory.Text += Environment.NewLine + " Previous record not found for the devices..." + Environment.NewLine;
+                                TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                             }
                         }
                         else
                         {
                             TxtStatusHistory.Text += Environment.NewLine + " User is not available for this device " + row["deviceid"] + Environment.NewLine;
+                            TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                         }
                     }
                     else
                     {
-                        TxtStatusHistory.Text += Environment.NewLine + " SMS Service NOT Enabled for this Device……….";
-                        TxtStatusHistory.Text += Environment.NewLine + " END Device Processing" + Environment.NewLine;
+                        TxtStatusHistory.Text += " SMS Service NOT Enabled for this Device………." + Environment.NewLine;
+                        TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                     }
                 }
                 else
                 {
-                    TxtStatusHistory.Text += Environment.NewLine + " SLc Devices information not found in database..." + Environment.NewLine;
+                    TxtStatusHistory.Text += Environment.NewLine + " Slc Devices information not found in database..." + Environment.NewLine;
+                    TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                 }
             }
             catch (Exception ex)
             {
                 TxtStatusHistory.Text += Environment.NewLine + " Error while processing data………." + Environment.NewLine;
+                TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
             }
         }
 
@@ -732,78 +749,82 @@ namespace MsgSchedulerApp
                         message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
                     }
                 }
-                if (Current_boost_ != Prevoius_boost_)
-                {
-                    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
-                    query += "where sf.SLCFaultName = 'boost ' and sfv.value = '" + Current_boost_ + "' ;";
-                    DataTable dtSlcFaultInfo = context.Select(query);
-                    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
-                    {
-                        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
-                        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
-                        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
-                    }
-                }
-                if (Current_n_ != Prevoius_n_)
-                {
-                    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
-                    query += "where sf.SLCFaultName = 'n' and sfv.value = '" + Current_n_ + "' ;";
-                    DataTable dtSlcFaultInfo = context.Select(query);
-                    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
-                    {
-                        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
-                        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
-                        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
-                    }
-                }
-                if (Current_s1_ != Prevoius_s1_)
-                {
-                    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
-                    query += "where sf.SLCFaultName = 's1' and sfv.value = '" + Current_s1_ + "' ;";
-                    DataTable dtSlcFaultInfo = context.Select(query);
-                    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
-                    {
-                        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
-                        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
-                        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
-                    }
-                }
-                if (Current_s2_ != Prevoius_s2_)
-                {
-                    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
-                    query += "where sf.SLCFaultName = 's2' and sfv.value = '" + Current_s2_ + "' ;";
-                    DataTable dtSlcFaultInfo = context.Select(query);
-                    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
-                    {
-                        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
-                        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
-                        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
-                    }
-                }
-                if (Current_s3_ != Prevoius_s3_)
-                {
-                    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
-                    query += "where sf.SLCFaultName = 's3' and sfv.value = '" + Current_s3_ + "' ;";
-                    DataTable dtSlcFaultInfo = context.Select(query);
-                    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
-                    {
-                        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
-                        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
-                        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
-                    }
-                }
-                if (Current_s4_ != Prevoius_s4_)
-                {
-                    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
-                    query += "where sf.SLCFaultName = 's1' and sfv.value = '" + Current_s1_ + "' ;";
-                    DataTable dtSlcFaultInfo = context.Select(query);
-                    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
-                    {
-                        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
-                        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
-                        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
-                    }
-                }
+
+                #region delete n s1 s2 s3 s4 boost
+                //if (Current_boost_ != Prevoius_boost_)
+                //{
+                //    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
+                //    query += "where sf.SLCFaultName = 'boost ' and sfv.value = '" + Current_boost_ + "' ;";
+                //    DataTable dtSlcFaultInfo = context.Select(query);
+                //    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
+                //    {
+                //        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
+                //        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
+                //        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
+                //    }
+                //}
+                //if (Current_n_ != Prevoius_n_)
+                //{
+                //    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
+                //    query += "where sf.SLCFaultName = 'n' and sfv.value = '" + Current_n_ + "' ;";
+                //    DataTable dtSlcFaultInfo = context.Select(query);
+                //    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
+                //    {
+                //        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
+                //        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
+                //        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
+                //    }
+                //}
+                //if (Current_s1_ != Prevoius_s1_)
+                //{
+                //    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
+                //    query += "where sf.SLCFaultName = 's1' and sfv.value = '" + Current_s1_ + "' ;";
+                //    DataTable dtSlcFaultInfo = context.Select(query);
+                //    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
+                //    {
+                //        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
+                //        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
+                //        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
+                //    }
+                //}
+                //if (Current_s2_ != Prevoius_s2_)
+                //{
+                //    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
+                //    query += "where sf.SLCFaultName = 's2' and sfv.value = '" + Current_s2_ + "' ;";
+                //    DataTable dtSlcFaultInfo = context.Select(query);
+                //    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
+                //    {
+                //        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
+                //        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
+                //        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
+                //    }
+                //}
+                //if (Current_s3_ != Prevoius_s3_)
+                //{
+                //    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
+                //    query += "where sf.SLCFaultName = 's3' and sfv.value = '" + Current_s3_ + "' ;";
+                //    DataTable dtSlcFaultInfo = context.Select(query);
+                //    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
+                //    {
+                //        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
+                //        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
+                //        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
+                //    }
+                //}
+                //if (Current_s4_ != Prevoius_s4_)
+                //{
+                //    string query = " select sfv.description ,sf.SLCFaultSeverity from SLCFaults  sf inner join SLCFaultsValues sfv on sf.SLCFaultid = sfv.SLCFaultid ";
+                //    query += "where sf.SLCFaultName = 's1' and sfv.value = '" + Current_s1_ + "' ;";
+                //    DataTable dtSlcFaultInfo = context.Select(query);
+                //    if (dtSlcFaultInfo != null && dtSlcFaultInfo.Rows.Count > 0)
+                //    {
+                //        SLCFaultDescription = Convert.ToString(dtSlcFaultInfo.Rows[0]["description"]);
+                //        SLCFaultSeverity = Convert.ToString(dtSlcFaultInfo.Rows[0]["SLCFaultSeverity"]);
+                //        message += "Severity:" + SLCFaultSeverity + Environment.NewLine + SLCFaultDescription + Environment.NewLine;
+                //    }
+                //}
+                #endregion
+
                 if (Current_aux1_ == "0" && Current_aux2_ == "0" && Current_aux3_ == "0" && Current_aux4_ == "0" && Current_aux5_ == "0" && Current_aux6_ == "0" && Current_aux7_ == "0" && Current_aux8_ == "0" &&
                      Current_r_failure_ == "0" && Current_y_failure_ == "0" && Current_b_failure_ == "0" && Current_fault_ov_ == "0" && Current_fault_uv_ == "0" && Current_fault_OL_ == "0" && Current_fault_UL_ == "0"
                     && Current_fault_OF_ == "0" && Current_fault_UF_ == "0" && Current_fault_OT_ == "0" && Current_fault_GF_ == "0" && Current_fault_PD_ == "0" && Current_fault_PU_ == "0" && Current_fault_ZV_ == "0"
@@ -837,21 +858,11 @@ namespace MsgSchedulerApp
 
         public void ExitSMSApp()
         {
-            TxtStatusHistory.Text += Environment.NewLine + "Exiting from SMS Engine...";
+            TxtStatusHistory.Text += Environment.NewLine + " Exiting from SMS Engine...";
             context.CloseConnection();
             //Application.Exit();
         }
 
-        private void btnclearLog_Click(object sender, EventArgs e)
-        {
-            TxtStatusHistory.Clear();
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            TxtStatusHistory.Clear();
-            context.CloseConnection();
-            StartApplication();
-        }
+        #endregion      
     }
 }

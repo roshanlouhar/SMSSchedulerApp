@@ -34,8 +34,10 @@ namespace MsgSchedulerApp
             this.TxtStatusHistory = new System.Windows.Forms.RichTextBox();
             this.BtnStartManual = new System.Windows.Forms.Button();
             this.btnclearLog = new System.Windows.Forms.Button();
-
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+
+
+            // timer property setting 
             timer1.Tick += new System.EventHandler(timer1_Tick);
             timer1.Interval = (1000 * 60 * timeinterval);
             timer1.Enabled = true;
@@ -47,18 +49,17 @@ namespace MsgSchedulerApp
             this.TxtStatusHistory.Location = new System.Drawing.Point(0, 64);
             this.TxtStatusHistory.MaximumSize = new System.Drawing.Size(1064, 450);
             this.TxtStatusHistory.Name = "TxtStatusHistory";
-            this.TxtStatusHistory.ReadOnly = false;
             this.TxtStatusHistory.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.TxtStatusHistory.Size = new System.Drawing.Size(1064, 450);
+            this.TxtStatusHistory.Size = new System.Drawing.Size(553, 183);
             this.TxtStatusHistory.TabIndex = 0;
-            this.TxtStatusHistory.Text = "SMS Engine Started.";
+            this.TxtStatusHistory.Text = "";
             this.TxtStatusHistory.TextChanged += new System.EventHandler(this.TxtStatusHistory_TextChanged);
             // 
             // BtnStartManual
             // 
             this.BtnStartManual.Location = new System.Drawing.Point(0, 4);
             this.BtnStartManual.Name = "BtnStartManual";
-            this.BtnStartManual.Size = new System.Drawing.Size(485, 54);
+            this.BtnStartManual.Size = new System.Drawing.Size(257, 54);
             this.BtnStartManual.TabIndex = 1;
             this.BtnStartManual.Text = "Start Manually";
             this.BtnStartManual.UseVisualStyleBackColor = true;
@@ -66,9 +67,9 @@ namespace MsgSchedulerApp
             // 
             // btnclearLog
             // 
-            this.btnclearLog.Location = new System.Drawing.Point(545, 4);
+            this.btnclearLog.Location = new System.Drawing.Point(263, 4);
             this.btnclearLog.Name = "btnclearLog";
-            this.btnclearLog.Size = new System.Drawing.Size(485, 54);
+            this.btnclearLog.Size = new System.Drawing.Size(290, 54);
             this.btnclearLog.TabIndex = 2;
             this.btnclearLog.Text = "Clear Log";
             this.btnclearLog.UseVisualStyleBackColor = true;
@@ -83,7 +84,7 @@ namespace MsgSchedulerApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 521);
+            this.ClientSize = new System.Drawing.Size(560, 258);
             this.Controls.Add(this.btnclearLog);
             this.Controls.Add(this.BtnStartManual);
             this.Controls.Add(this.TxtStatusHistory);
