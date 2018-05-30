@@ -104,7 +104,14 @@ namespace MsgSchedulerApp
                 int result = client.sendMessages(s, msg);
                 client.closeSession(s);
 
-                return true;
+                if (result == 200)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }                
             }
             catch (Exception exp)
             {
