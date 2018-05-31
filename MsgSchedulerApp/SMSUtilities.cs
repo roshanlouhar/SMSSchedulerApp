@@ -89,9 +89,9 @@ namespace MsgSchedulerApp
 
                 EMMS.user objuser = new EMMS.user();
                 EMMS.alias alias = new EMMS.alias();
-                objuser.username = user;
-                objuser.password = password;
-                alias.alias1 = sender;
+                objuser.username = "esmsusr_1bki";
+                objuser.password = "2gi6tip";
+                alias.alias1 = "APL_ENERGY";
 
                 smsMessage msg = new smsMessage();
                 msg.sender = alias;

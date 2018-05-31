@@ -105,8 +105,8 @@ namespace MsgSchedulerApp
                     TxtStatusHistory.Text += Environment.NewLine + " No fault information is found during time interval....";
                     ExitSMSApp();
                 }
-                query = "delete from slcevents ;";
-                context.Delete(query);
+                //query = "delete from slcevents ;";
+                //context.Delete(query);
             }
             catch (Exception ex)
             {
@@ -177,14 +177,14 @@ namespace MsgSchedulerApp
                                     query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["deviceid"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
                                     context.Insert(query);
                                 }
-                                query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
-                                context.Update(query);
                             }
                             else
                             {
                                 TxtStatusHistory.Text += Environment.NewLine + " Previous record not found for the devices..." + Environment.NewLine;
                                 TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                             }
+                            query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
+                            context.Update(query);
                         }
                         else
                         {
