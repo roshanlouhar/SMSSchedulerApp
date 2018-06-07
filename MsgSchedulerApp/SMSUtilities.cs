@@ -84,22 +84,22 @@ namespace MsgSchedulerApp
         {
             try
             {
-                //string baseURL = baseurl + "?user=" + user + "&password=" + password + "&PhoneNumber=" + mobileNumber + "&sender=" + sender + "&Text=" + message + "";
-
-
                 EMMS.user objuser = new EMMS.user();
                 EMMS.alias alias = new EMMS.alias();
-                objuser.username = "esmsusr_1bki";
-                objuser.password = "2gi6tip";
+                objuser.username = user;
+                objuser.password = password;
                 alias.alias1 = "APL_ENERGY";
 
                 smsMessage msg = new smsMessage();
                 msg.sender = alias;
                 msg.message = message;
-                msg.recipients = new string[] { mobileNumber };
+                if (mobileNumber.Contains(","))
+                    msg.recipients = mobileNumber.Split(',').ToArray();
+                else
+                    msg.recipients = new string[] { mobileNumber };
 
                 EnterpriseSMSWSClient client = new EnterpriseSMSWSClient();
-               
+
                 session s = client.createSession(objuser);
                 int result = client.sendMessages(s, msg);
                 client.closeSession(s);
@@ -111,7 +111,7 @@ namespace MsgSchedulerApp
                 else
                 {
                     return false;
-                }                
+                }
             }
             catch (Exception exp)
             {

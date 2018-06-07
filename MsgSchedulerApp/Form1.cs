@@ -91,7 +91,7 @@ namespace MsgSchedulerApp
             try
             {
                 TxtStatusHistory.Text += Environment.NewLine + " Reading Device Fault Information..." + Environment.NewLine;
-                string query = "select se.* from slcevents se inner join slc_devices sd on se.deviceid = sd.deviceid  where se.IsAlertProcessed = 0 ;";
+                string query = "select se.* from slcevents se inner join slc_devices sd on se.deviceid = sd.deviceid  where se.IsAlertProcessed = 0 and sd.city in (21) ;";
                 DataTable dtFaultEvent = context.Select(query);
                 if (dtFaultEvent != null && dtFaultEvent.Rows.Count > 0)
                 {
