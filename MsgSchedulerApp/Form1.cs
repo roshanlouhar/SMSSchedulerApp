@@ -70,7 +70,6 @@ namespace MsgSchedulerApp
                 {
                     TxtStatusHistory.Text += Environment.NewLine + " Successfully establishing Database Connections...";
                     ReadingFaultInformation();
-                    ExitSMSApp();
                 }
                 else
                 {
@@ -91,7 +90,7 @@ namespace MsgSchedulerApp
             try
             {
                 TxtStatusHistory.Text += Environment.NewLine + " Reading Device Fault Information..." + Environment.NewLine;
-                string query = "select se.* from slcevents se inner join slc_devices sd on se.deviceid = sd.deviceid  where se.IsAlertProcessed = 0 and sd.city in (21) ;";
+                string query = "select se.* from slcevents se inner join slc_devices sd on se.deviceid = sd.deviceid  where se.IsAlertProcessed = 0 and sd.city in (21,15) ;";
                 DataTable dtFaultEvent = context.Select(query);
                 if (dtFaultEvent != null && dtFaultEvent.Rows.Count > 0)
                 {
@@ -99,6 +98,7 @@ namespace MsgSchedulerApp
                     {
                         StartDeviceProcessing(row);
                     }
+                    ExitSMSApp();
                 }
                 else
                 {
@@ -128,9 +128,9 @@ namespace MsgSchedulerApp
                 if (dtslcDevices != null && dtslcDevices.Rows.Count > 0)
                 {
                     string cityId = Convert.ToString(dtslcDevices.Rows[0]["city"]);
-                    query = "select count(*) as Issend from smsauthority where cityid =" + cityId + " and issend = 1 ;";
-                    int count = context.Count(query);
-                    if (count > 0)
+                    query = "select * from smsauthority where cityid =" + cityId + " and issend = 1 ;";
+                    DataTable dtSMSAuthority = context.Select(query);
+                    if (dtSMSAuthority != null && dtSMSAuthority.Rows.Count > 0)
                     {
                         TxtStatusHistory.Text += Environment.NewLine + " SMS Service Enabled for this Device……….";
 
@@ -151,16 +151,27 @@ namespace MsgSchedulerApp
                                 DataRow PreviousRow = dtPreviousRow.AsEnumerable().FirstOrDefault();
                                 bool result = false;
 
-                                string LEDMessage = PrepareLEDMessage(row, PreviousRow, dtslcDevices);
-                                string FaultMessage = PrepareFaultMessage(row, PreviousRow, dtslcDevices);
-                                if (!string.IsNullOrEmpty(LEDMessage))
+                                var TmpSmsAuthority = dtSMSAuthority.AsEnumerable().FirstOrDefault();
+
+                                bool IsSentFaultSms = Convert.ToBoolean(TmpSmsAuthority["isfaults"]);
+                                bool IsSwitchingSms = Convert.ToBoolean(TmpSmsAuthority["isswitching"]);
+                                if (IsSwitchingSms)
                                 {
-                                    result = smsUtilities.processMessage(cityId, mobile, LEDMessage);
+                                    string LEDMessage = PrepareLEDMessage(row, PreviousRow, dtslcDevices);
+                                    if (!string.IsNullOrEmpty(LEDMessage))
+                                    {
+                                        result = smsUtilities.processMessage(cityId, mobile, LEDMessage);
+                                    }
                                 }
-                                if (!string.IsNullOrEmpty(FaultMessage))
+                                if (IsSentFaultSms)
                                 {
-                                    result = smsUtilities.processMessage(cityId, mobile, FaultMessage);
+                                    string FaultMessage = PrepareFaultMessage(row, PreviousRow, dtslcDevices);
+                                    if (!string.IsNullOrEmpty(FaultMessage))
+                                    {
+                                        result = smsUtilities.processMessage(cityId, mobile, FaultMessage);
+                                    }
                                 }
+
                                 if (result)
                                 {
                                     TxtStatusHistory.Text += Environment.NewLine + " SMS sent Successfully to all Users……….";
@@ -171,7 +182,7 @@ namespace MsgSchedulerApp
                                 }
                                 else
                                 {
-                                    TxtStatusHistory.Text += Environment.NewLine + " Error while sending sms to all Users………." + Environment.NewLine;
+                                    TxtStatusHistory.Text += Environment.NewLine + " Any SMS service is not enabled or Msg is not built………." + Environment.NewLine;
                                     TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
 
                                     query = "INSERT INTO smsenthistory (deviceid,sentdate,senttime,statusid) VALUES ('" + row["deviceid"] + "','" + DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "','" + DateTime.Now.ToShortTimeString() + "', '1')";
@@ -183,8 +194,6 @@ namespace MsgSchedulerApp
                                 TxtStatusHistory.Text += Environment.NewLine + " Previous record not found for the devices..." + Environment.NewLine;
                                 TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                             }
-                            query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
-                            context.Update(query);
                         }
                         else
                         {
@@ -197,12 +206,14 @@ namespace MsgSchedulerApp
                         TxtStatusHistory.Text += Environment.NewLine + " SMS Service NOT Enabled for this Device………." + Environment.NewLine;
                         TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
                     }
+                    query = "update slcevents set IsAlertProcessed = '1' where id =" + row["id"] + "; ";
+                    context.Update(query);
                 }
                 else
                 {
                     TxtStatusHistory.Text += Environment.NewLine + " Slc Devices information not found in database..." + Environment.NewLine;
                     TxtStatusHistory.Text += " END Device Processing" + Environment.NewLine + Environment.NewLine;
-                }
+                }                
             }
             catch (Exception ex)
             {
