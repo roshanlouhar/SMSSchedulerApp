@@ -25,3 +25,4 @@ D:\WorkCode\SMSSchedulerApp\MsgSchedulerApp\obj\Debug\MsgSchedulerApp.Properties
 D:\WorkCode\SMSSchedulerApp\MsgSchedulerApp\obj\Debug\MsgSchedulerApp.csproj.GenerateResource.Cache
 D:\WorkCode\SMSSchedulerApp\MsgSchedulerApp\obj\Debug\MsgSchedulerApp.exe
 D:\WorkCode\SMSSchedulerApp\MsgSchedulerApp\obj\Debug\MsgSchedulerApp.pdb
+D:\WorkCode\SMSSchedulerApp\MsgSchedulerApp\obj\Debug\MsgSchedulerApp.csprojResolveAssemblyReference.cache

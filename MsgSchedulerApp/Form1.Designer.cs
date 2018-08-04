@@ -91,11 +91,11 @@ namespace MsgSchedulerApp
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(85, 280);
+            this.label2.Location = new System.Drawing.Point(249, 280);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(440, 17);
+            this.label2.Size = new System.Drawing.Size(275, 17);
             this.label2.TabIndex = 4;
-            this.label2.Text = "iTalent Consulting Information and Technology, S.L CIF: B-87717773";
+            this.label2.Text = "Powered By Increpe Technologies Pvt. Ltd";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // Form1
